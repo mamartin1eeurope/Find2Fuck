@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Find2Fuck.Services", "Find2Fuck.Services\Find2Fuck.Services.csproj", "{A2C4EF16-61A4-4C68-9DA9-9DBDDEB3BFD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Find2Fuck.Web", "Find2Fuck.Web\Find2Fuck.Web.csproj", "{B45A9CC9-26E1-4DE4-BC1F-0DB7B4BA873D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Find2Fuck.Web", "Find2Fuck.Web\Find2Fuck.Web.csproj", "{C8B266B2-40A1-485B-BD33-2E60695D7FE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{A2C4EF16-61A4-4C68-9DA9-9DBDDEB3BFD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2C4EF16-61A4-4C68-9DA9-9DBDDEB3BFD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2C4EF16-61A4-4C68-9DA9-9DBDDEB3BFD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B45A9CC9-26E1-4DE4-BC1F-0DB7B4BA873D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B45A9CC9-26E1-4DE4-BC1F-0DB7B4BA873D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B45A9CC9-26E1-4DE4-BC1F-0DB7B4BA873D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B45A9CC9-26E1-4DE4-BC1F-0DB7B4BA873D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B266B2-40A1-485B-BD33-2E60695D7FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B266B2-40A1-485B-BD33-2E60695D7FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B266B2-40A1-485B-BD33-2E60695D7FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B266B2-40A1-485B-BD33-2E60695D7FE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
