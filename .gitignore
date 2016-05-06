@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Find2Fuck.Services/obj/Debug
+/Find2Fuck.Services/bin
+/Find2Fuck.Web/bin
+/Find2Fuck.Web/obj/Debug

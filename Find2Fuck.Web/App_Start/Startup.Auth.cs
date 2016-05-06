@@ -54,9 +54,9 @@ namespace Find2Fuck.Web
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+						app.UseFacebookAuthentication(
+							 appId: "1583930171935989",
+							 appSecret: "cefd9ff7e0a9f5122b4d892e6ade905b");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
