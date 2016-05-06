@@ -1,0 +1,170 @@
+﻿<h2>Buscar Personas</h2>
+
+<h3>Aqui podemos buscar personas cercanas o dadas una direccion</h3>
+
+<div id="locationField">
+	<input id="autocomplete" placeholder="Enter your address"  type="text" style="width: 600px;"/>
+</div>
+
+<br/>
+
+<div id="map" style="height: 400px;"></div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBv75UEGvSKrVkxItLv_E1aSPelC73Z9w&libraries=geometry,places"></script>
+
+<script>
+	var autocomplete = null;
+	var map = null;
+	var infowindow = null;
+	var geocoder = null;
+
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('map'));
+
+		infowindow = new google.maps.InfoWindow;
+		geocoder = new google.maps.Geocoder;
+	}
+	function initAutocomplete() {
+		autocomplete = new google.maps.places.Autocomplete(
+		(document.getElementById('autocomplete')),
+		{ types: ['geocode'] });
+
+		autocomplete.addListener('place_changed', getPlaceData);
+	}
+	function getPlaceData() {
+		var place = autocomplete.getPlace();
+
+		reverserGeocoding(place.geometry.location);
+	}
+	function geolocate() {
+		if (navigator.geolocation) {
+			console.log('calculando posicion');
+
+			navigator.geolocation.getCurrentPosition(function (position) {
+				console.log('posicion calculada');
+
+				var geolocation = {
+					lat: position.coords.latitude,
+					lng: position.coords.longitude
+				};
+
+				//var circle = new google.maps.Circle({
+				//	center: geolocation,
+				//	radius: position.coords.accuracy
+				//});
+
+				reverserGeocoding(geolocation);
+				//autocomplete.setBounds(circle.getBounds());
+			});
+		}
+	}
+
+	function reverserGeocoding(position) {
+		geocoder.geocode({ 'location': position }, function (results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
+				
+				if (results[1]) {
+
+					map.setZoom(14);
+					map.setCenter(position);
+
+					var marker = new google.maps.Marker({
+						position: position,
+						map: map
+					});
+
+					//bindInfoWindow(marker, map, infowindow, results[1].formatted_address);
+					//infowindow.open(map, marker);
+
+					loadPositions('@Url.Action("LoadPositions","FindPeople")', position);
+
+					//var a = new google.maps.LatLng(position);
+					//var b = new google.maps.LatLng(0, 1);
+					//var distance = google.maps.geometry.spherical.computeDistanceBetween(a, b);
+					//console.log(distance);
+
+				} else {
+					console.log('<Geocoder>: No results found');
+				}
+			} else {
+				console.log('<Geocoder>: Failed due to: ' + status);
+			}
+		});
+	}
+
+	function loadMarkers() {
+		var xmlMarkersRequest = new XMLHttpRequest();
+		xmlMarkersRequest.onreadystatechange = function () {
+			if (xmlMarkersRequest.readyState === 4) {
+				var xml = xmlMarkersRequest.responseXML;
+				var markersArray = xml.documentElement.getElementsByTagName("marker");
+				for (var i = 0; i < markersArray.length; i++) {
+					var id = Number(markersArray[i].getAttribute("id"));
+					var latitude = markersArray[i].getAttribute("latitude");
+					var longitude = markersArray[i].getAttribute("longitude");
+					var point = new google.maps.LatLng(
+							parseFloat(latitude),
+							parseFloat(longitude));
+					var marker2 = new google.maps.Marker({
+						map: map,
+						position: point,
+						zIndex: id
+					});
+				}
+			}
+		}
+		xmlMarkersRequest.open('GET', 'markers.xml', false);
+		xmlMarkersRequest.send(null);
+	}
+
+	function loadPositions(url, startPoint)
+	{
+		$.ajax({
+			type: "POST",
+			url: url,
+			dataType: 'json',
+			success: function (response) {
+
+				if (response.ok) {
+					var positions = response.positions;
+					for (var i = 0; i < positions.length; i++) {
+
+						var point = new google.maps.LatLng(
+							parseFloat(positions[i].Latitude),
+							parseFloat(positions[i].Longitude));
+						
+						var marker = new google.maps.Marker({
+							map: map,
+							position: point
+						});
+
+						var origin = new google.maps.LatLng(startPoint);
+						var destination = point;
+						var distance = google.maps.geometry.spherical.computeDistanceBetween(origin, destination);
+
+						bindInfoWindow(marker, map, infowindow, positions[i].Name + ' a ' + (distance/1000).toFixed(1) + 'km');
+					}
+				} else {
+					console.log('<loadPositions>: ' + response.message);
+				}
+			},
+			error: function (response) {
+				parent.loadingAjax.Hide();
+				console.log('<loadPositions>: ' + response);
+			}
+		});
+	}
+
+	function bindInfoWindow(marker, map, infowindow, description) {
+		marker.addListener('click', function () {
+			infowindow.setContent(description);
+			infowindow.open(map, this);
+		});
+	}
+
+	$(document).ready(function () {
+		initAutocomplete();
+		initMap();
+		geolocate();
+	});
+</script>
